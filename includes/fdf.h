@@ -6,7 +6,7 @@
 /*   By: ngomes-t <ngomes-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:11:54 by ngomes-t          #+#    #+#             */
-/*   Updated: 2022/12/08 16:12:01 by ngomes-t         ###   ########.fr       */
+/*   Updated: 2022/12/08 16:17:39 by ngomes-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,12 @@ typedef struct s_mapdim
 	int	rows;
 	int	cols;
 }	t_mapdim;
+
+typedef struct s_dot
+{
+	int	x;
+	int	y;
+	int	color;
+}	t_dot;
 
 #endif
