@@ -6,7 +6,7 @@
 /*   By: ngomes-t <ngomes-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:12:32 by ngomes-t          #+#    #+#             */
-/*   Updated: 2022/12/08 16:50:28 by ngomes-t         ###   ########.fr       */
+/*   Updated: 2022/12/08 17:43:43 by ngomes-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,17 +37,18 @@ int key_hook(int keycode, t_win *win)
     return (0);
 }
 
-void    seta_valores(matriz matrix[][])
+void    get_coord_values(t_dot dot_matrix[][], t_mapdim dimensions)
 {
-    enquanto ( i < linhas)
+    i = 0;
+    while (i < dimensions.rows)
     {
         j = 0
-        matriz[i] = calloc(tamanho(matriz), colunas);
-        enquanto (j < colunas)
+        dot_matrix[i] = calloc(t_dot, colunas);
+        while (j < dimensions.cols)
         {
-            matriz[i] = colunas;
-            matriz[j] = linhas;
-            matriz[z] = atoi(split[colunas]);
+            dot_matrix[i] = colunas;
+            dot_matrix[j] = linhas;
+            dot_matrix[z] = atoi(split[colunas]);
         }
     }
 
@@ -66,18 +67,18 @@ void	error_message(char *message)
 /* free em char **str */
 void    double_free(char **str)
 {
-    if (*str)
-        free(*str);
+    if (*str != NULL)
+        free(*str++);
 }
 
 
 /* medir as dimensões do mapa */
-int    count_lines(void)
+int    count_lines(char *filename)
 {
     int    fd;
     int    lines;
 
-    fd = open("teste1", O_RDONLY);
+    fd = open(filename, O_RDONLY);
     if (fd < 0)
         error_message("erro");
     lines = 0;
@@ -85,23 +86,23 @@ int    count_lines(void)
         lines++;
     return (lines);
 }
-int count_columns(void)
+int count_columns(filename)
 {
     int     fd;
     int     columns;
     char    *line;
     char    **splitted;
 
-    fd = open("teste1", O_RDONLY);
+    fd = open(filename, O_RDONLY);
     if (fd < 0)
         error_message("erro");
     line = ft_get_next_line(fd);
     splitted = ft_split(line, ' ');
-    free(line);
+    free(line);tamanho(matriz)
     columns = 0;
     while (splitted[0][columns] != NULL)
         columns++;
-    free(splitted);
+    double_free(splitted);
     close(fd);
     return (columns);
 }
@@ -112,6 +113,9 @@ int main()
 {
     t_win   win;
     t_img  img;
+    t_dot   **dot_matrix;
+    t_mapdim dimensions;
+
     int i;
     int j;
 
@@ -141,7 +145,10 @@ int main()
         }
         i++;
     }
-    matriz = calloc(tamanho(matriz), linhas);
+    dimensions.cols = count_columns(argv[1]);
+    dimensions.rows = count_lines(argv[1]);
+    dot_matrix = ft_calloc(t_dot *, dimensions.rows);
+    
     mlx_put_image_to_window(win.mlx, win.mlx_win, img.img, 0, 0);
     mlx_destroy_image(win.mlx, img.img);
     mlx_key_hook(win.mlx_win, key_hook, &win);
