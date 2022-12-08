@@ -6,7 +6,7 @@
 /*   By: ngomes-t <ngomes-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:12:32 by ngomes-t          #+#    #+#             */
-/*   Updated: 2022/12/08 16:15:27 by ngomes-t         ###   ########.fr       */
+/*   Updated: 2022/12/08 16:50:28 by ngomes-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,14 @@ void	error_message(char *message)
 	exit (1);
 }
 
+/* free em char **str */
+void    double_free(char **str)
+{
+    if (*str)
+        free(*str);
+}
+
+
 /* medir as dimensões do mapa */
 int    count_lines(void)
 {
@@ -88,15 +96,12 @@ int count_columns(void)
     if (fd < 0)
         error_message("erro");
     line = ft_get_next_line(fd);
-    printf("line = %s", line);
     splitted = ft_split(line, ' ');
+    free(line);
     columns = 0;
-    while (*splitted != NULL)
-    {
-        printf("*splitted = %s\n", *splitted);
-        splitted++;
+    while (splitted[0][columns] != NULL)
         columns++;
-    }
+    free(splitted);
     close(fd);
     return (columns);
 }
