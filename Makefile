@@ -1,36 +1,28 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: ngomes-t <ngomes-t@student.42sp.org.br>    +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/11/01 23:26:47 by ngomes-t          #+#    #+#              #
-#    Updated: 2022/11/02 02:10:18 by ngomes-t         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 NAME = fdf
 
 PATH_SRC = ./sources/
 PATH_OBJ = ./objects/
 PATH_INC = ./includes/
 PATH_LIB = ./42_libft/
+PATH_MLX = ./minilibx-linux/
 
-SRCS = $(addprefix $(PATH_SRC), fdf.c)
+SRCS = $(addprefix $(PATH_SRC), main.c)
 
 OBJS = $(patsubst $(PATH_SRC)%.c, $(PATH_OBJ)%.o, $(SRCS))
 
 LIBFT = $(PATH_LIB)/libft.a
+MLX = $(PATH_MLX)/libmlx_Linux.a
+MLX2 = $(PATH_MLX)/libmlx.a
 
 CFLAGS = -Wall -Wextra -Werror
-MLXFLAGS = -lm -lX11 -lXext -lmlx
-IFLAGS = -I $(PATH_INC)
+LFLAGS = -lm -lX11 -lXext -lmlx -lmlx_Linux 
+IFLAGS = -I $(PATH_INC) -I $(PATH_MLX) -I $(PATH_LIB)
+PATH_LIBS = -L$(PATH_LIB) -L$(PATH_MLX)
 
 all: $(NAME)
 
-$(NAME): $(OBJS) $(LIBFT)
-	cc $(CFLAGS) $(IFLAGS) -o $(NAME) $(OBJS) $(LFLAGS) $(LIBFT)
+$(NAME): $(OBJS) $(LIBFT) $(MLX) $(MLX2)
+	cc $(CFLAGS) $(IFLAGS) -o $(NAME) $(OBJS) $(LFLAGS) $(PATH_LIBS) $(LIBFT) $(MLX) $(MLX2)
 
 $(PATH_OBJ)%.o: $(PATH_SRC)%.c
 	mkdir -p $(PATH_OBJ)
@@ -38,6 +30,9 @@ $(PATH_OBJ)%.o: $(PATH_SRC)%.c
 
 $(LIBFT):
 	make -C $(PATH_LIB)
+
+$(MLX):
+	make -C $(PATH_MLX)
 
 clean:
 	make clean -C $(PATH_LIB)
@@ -51,4 +46,3 @@ re: fclean all
 
 test: all
 	./fdf ./test_maps/42.fdf
-	
