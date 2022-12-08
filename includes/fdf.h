@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fdf.h                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ngomes-t <ngomes-t@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/08 16:11:54 by ngomes-t          #+#    #+#             */
+/*   Updated: 2022/12/08 16:12:01 by ngomes-t         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef FDF_H
 # define FDF_H
 
@@ -11,7 +23,7 @@ typedef struct	s_img
 {
 	void	*img;
 	char	*addr;
-	int		bits_per_pixel;
+	int		bpp;
 	int		line_length;
 	int		endian;
 }   t_img;
@@ -23,14 +35,10 @@ typedef struct s_win
 	void	*img;
 }	t_win;
 
-#endif
-
-typedef struct s_img
+typedef struct s_mapdim
 {
-	void	*mlx_img;
-	char	*addr;
-	// int		bpp;
-	// int		line_len;
-	// int		endian;
-}	t_img;
+	int	rows;
+	int	cols;
+}	t_mapdim;
 
+#endif
