@@ -6,7 +6,7 @@
 /*   By: ngomes-t <ngomes-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:12:32 by ngomes-t          #+#    #+#             */
-/*   Updated: 2022/12/08 17:43:43 by ngomes-t         ###   ########.fr       */
+/*   Updated: 2022/12/08 21:32:06 by ngomes-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,21 +37,40 @@ int key_hook(int keycode, t_win *win)
     return (0);
 }
 
-void    get_coord_values(t_dot dot_matrix[][], t_mapdim dimensions)
+/* inserir os mapa na matriz */
+void    get_coords(t_dot dot_matrix[][], t_mapdim dimensions)
 {
-    i = 0;
-    while (i < dimensions.rows)
-    {
-        j = 0
-        dot_matrix[i] = calloc(t_dot, colunas);
-        while (j < dimensions.cols)
-        {
-            dot_matrix[i] = colunas;
-            dot_matrix[j] = linhas;
-            dot_matrix[z] = atoi(split[colunas]);
-        }
-    }
+    char    *line_content;
+    char    **splitted;
 
+    rows = 0;
+    while (rows < dimensions.rows)
+    {
+        cols = 0
+        line_content = ft_get_next_line(fd);
+        dot_matrix[rows] = ft_calloc(t_dot, dimensions.cols);
+        while (cols < dimensions.cols)
+        {
+            dot_matrix.x = cols;
+            dot_matrix.y = row;
+            if (ft_strchr(line_content), ',')
+            {
+                splitted = ft_split(line_content, ' ');
+                dot_matrix.z = splitted[0];
+                dot_matrix.color = ft_htoi(splitted[1]);
+                cols++
+            }
+            else
+            {
+                dot_matrix.z = ft_atoi(ft_split[cols]);
+                dot_matriz.color = WHITE;
+                cols++            
+            }
+        }
+        rows++;
+    }
+    free(line_content);
+    double_free(splitted);
 }
 
 /* tratamento de erro */
@@ -98,10 +117,10 @@ int count_columns(filename)
         error_message("erro");
     line = ft_get_next_line(fd);
     splitted = ft_split(line, ' ');
-    free(line);tamanho(matriz)
     columns = 0;
     while (splitted[0][columns] != NULL)
         columns++;
+    free(line);
     double_free(splitted);
     close(fd);
     return (columns);
