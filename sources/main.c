@@ -6,7 +6,7 @@
 /*   By: ngomes-t <ngomes-t@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:12:32 by ngomes-t          #+#    #+#             */
-/*   Updated: 2022/12/12 01:58:43 by ngomes-t         ###   ########.fr       */
+/*   Updated: 2022/12/17 20:11:04 by ngomes-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ void	double_free(char **str)
 void	get_coords(t_dot **dot_matrix, t_mapdim dimensions, char *filename)
 {
 	char	*line_content;
-	char	**splitted;
+	char	**splitted_line;
+	char	**splitted_value;
 	int		rows;
 	int		cols;
 	int		fd;
@@ -62,6 +63,7 @@ void	get_coords(t_dot **dot_matrix, t_mapdim dimensions, char *filename)
 	{
 		cols = 0;
 		line_content = ft_get_next_line(fd);
+		splitted_line = ft_split(line_content, ' ');
 		dot_matrix[rows] = ft_calloc(sizeof(t_dot), dimensions.cols);
 		while (cols < dimensions.cols)
 		{
@@ -69,9 +71,9 @@ void	get_coords(t_dot **dot_matrix, t_mapdim dimensions, char *filename)
 			dot_matrix[cols][rows].y = rows;
 			if (ft_strchr(line_content, ','))
 			{
-				splitted = ft_split(line_content, ' ');
-				dot_matrix[cols][rows].z = splitted[0][cols];
-				dot_matrix[cols][rows].color = ft_htoi(splitted[1]);
+				splitted_value = ft_split(splitted_line[cols], ',');
+				dot_matrix[cols][rows].z = splitted_value[0][cols];
+				dot_matrix[cols][rows].color = ft_htoi(splitted_value[1]);
 				cols++;
 			}
 			else
@@ -84,7 +86,10 @@ void	get_coords(t_dot **dot_matrix, t_mapdim dimensions, char *filename)
 		rows++;
 	}
 	free(line_content);
-	double_free(splitted);
+	double_free(splitted_value);
+	double_free(splitted_line);
+	free(line_content);
+	close(fd);
 }
 
 /* tratamento de erro */
