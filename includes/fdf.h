@@ -6,7 +6,7 @@
 /*   By: ngomes-t <ngomes-t@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:11:54 by ngomes-t          #+#    #+#             */
-/*   Updated: 2022/12/12 01:36:39 by ngomes-t         ###   ########.fr       */
+/*   Updated: 2023/01/05 04:02:00 by ngomes-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ typedef struct s_win
 {
 	void	*mlx;
 	void	*mlx_win;
-	void	*img;
 }	t_win;
 
 typedef struct s_mapdim
@@ -62,7 +61,6 @@ int		key_hook(int keycode, t_win *win);
 void	double_free(char **str);
 void	get_coords(t_dot **dot_matrix, t_mapdim dimensions, char *filename);
 void	error_message(char *message);
-int		count_lines(char *filename);
-int		count_columns(char *filename);
+void	get_dimensions(char *filename, t_mapdim *dimensions);
 
 #endif
