@@ -6,7 +6,7 @@
 /*   By: ngomes-t <ngomes-t@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:11:54 by ngomes-t          #+#    #+#             */
-/*   Updated: 2023/01/05 04:02:00 by ngomes-t         ###   ########.fr       */
+/*   Updated: 2023/01/07 00:00:13 by ngomes-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,17 +50,12 @@ typedef struct s_dot
 	int	color;
 }	t_dot;
 
-typedef struct s_map
-{
-	int	rows;
-	int	cols;
-	int	zoom;
-	t_dot **dot_matrix;
-}	t_map;
-
 typedef struct s_fdf
 {
-	t_map	map;
+	int	height;
+	int	width;
+	int	zoom;
+	t_dot **dot_matrix;
 	t_win	win;
 	t_map	img;
 }	t_fdf;
