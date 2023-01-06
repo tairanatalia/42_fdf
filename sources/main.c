@@ -6,7 +6,7 @@
 /*   By: ngomes-t <ngomes-t@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 15:13:57 by ngomes-t          #+#    #+#             */
-/*   Updated: 2023/01/05 04:56:12 by ngomes-t         ###   ########.fr       */
+/*   Updated: 2023/01/06 23:36:25 by ngomes-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,40 +59,31 @@ void	get_coords(t_fdf *fdf, char *filename)
 	int		fd;
 
 	rows = 0;
-	printf(" 62 inicio debug\n");
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 		error_message("erro");
-	printf(" 66 arquivo aberto\n");
 	while (rows < fdf->map.rows)
 	{
-			// printf("while de leitura\n");
 		cols = 0;
 		line_content = ft_get_next_line(fd);
-		// printf("%s", line_content);
 		if (!line_content)
 			break;
 		splitted_line = ft_split(line_content, ' ');
 		fdf->map.dot_matrix[rows] = ft_calloc(sizeof(t_dot), fdf->map.cols + 1);
 		while (cols < fdf->map.cols)
 		{
-			// printf("while de alocação\n");
 			fdf->map.dot_matrix[rows][cols].x = cols;
 			fdf->map.dot_matrix[rows][cols].y = rows;
 			if (ft_strchr(splitted_line[cols], ','))
 			{
 				splitted_value = ft_split(splitted_line[cols], ',');
-				// printf("splitted_value[0] = %s e [1] = %s", splitted_value[0], splitted_value[1]);
 				fdf->map.dot_matrix[rows][cols].z = ft_atoi(splitted_value[0]);
-				// printf("%d", fdf->map.dot_matrix[rows][cols].z);
 				fdf->map.dot_matrix[rows][cols].color = ft_htoi(splitted_value[1]);
-				// printf("%d", fdf->map.dot_matrix[rows][cols].color);
 				double_free(splitted_value);
 			}
 			else
 			{
 				fdf->map.dot_matrix[rows][cols].z = ft_atoi(splitted_line[cols]);
-				// printf("%d\n", fdf->map.dot_matrix[rows][cols].z);
 				fdf->map.dot_matrix[rows][cols].color = WHITE;
 			}
 			cols++;
@@ -103,7 +94,6 @@ void	get_coords(t_fdf *fdf, char *filename)
 		rows++;
 	}
 	close(fd);
-	printf("deu certo essa merda\n");
 }
 
 /* tratamento de erro */
@@ -140,8 +130,6 @@ void	get_dimensions(char *filename, t_fdf *fdf)
 	}
 	double_free(splitted);
 	close(fd);
-	printf(" mapa %d x %d \n", fdf->map.rows, fdf->map.cols);
-	printf(" 143 get dim ok \n");
 }
 
 
@@ -184,13 +172,11 @@ void	bresenham(float x, float y, float x1, float y1, t_fdf *fdf)
 	float	delta_x;
 	float	delta_y;
 	int		max;
-	int		z;
-	int		z1;
+	// int		z;
+	// int		z1;
 
-	z = fdf->map.dot_matrix[(int)x][(int)y].z;
-	printf("%i", z);
-	z1 = fdf->map.dot_matrix[(int)x1][(int)y1].z;
-	printf("%i", z1);
+	// printf("%i", fdf->map.dot_matrix[(int)y][(int)x].z);
+	// printf("%i", fdf->map.dot_matrix[(int)y1][(int)x1].z);
 
 
 	/* escala do mapa */
@@ -210,7 +196,7 @@ void	bresenham(float x, float y, float x1, float y1, t_fdf *fdf)
 	while ((int)(x - x1) || (int)(y - y1))
 	{
 		mlx_pixel_put(fdf->win.mlx, fdf->win.mlx_win, x, y, /*fdf->map.dot_matrix \
-		[(int)x][(int)y].color*/WHITE);
+		[(int)y][(int)x].color*/WHITE);
 		x += delta_x;
 		y += delta_y;
 	}
@@ -218,22 +204,23 @@ void	bresenham(float x, float y, float x1, float y1, t_fdf *fdf)
 
 void	draw(t_fdf *fdf)
 {
-	int	row;
-	int	col;
+	int	x;
+	int	y;
 
-	row = 0;
-	while (row <= fdf->map.rows)
+	y = 0;
+	while (y <= fdf->map.rows)
 	{
-		col = 0;
-		while (col <= fdf->map.cols)
+		x = 0;
+		while (x <= fdf->map.cols)
 		{
-			if (col < fdf->map.cols)
-				bresenham(col, row, col + 1, row, fdf);
-			if (row < fdf->map.rows)
-				bresenham(col, row, col, row + 1, fdf);
-			col++;
+			if (x < fdf->map.cols)
+				bresenham(x, y, x + 1, y, fdf);
+			if (y < fdf->map.rows)
+				bresenham(x, y, x, y + 1, fdf);
+			x++; 
 		}
-		row++;
+		printf("\n");
+		y++;
 	}
 }
 
@@ -277,12 +264,12 @@ int main(int argc, char **argv)
 	}
 	fdf = (t_fdf *)malloc(sizeof(fdf));
 	get_dimensions(argv[1], fdf);
-	printf(" 279 antes da aloc\n");
-	printf(" vamo ve se ta td certo\n fdf->map.rows = %d\n", fdf->map.rows);
-	fdf->map.dot_matrix = ft_calloc(sizeof(t_dot *), fdf->map.rows); //Invalid write of size 8
-	printf("checagem antes da func get_coords\n");
+	// printf(" 279 antes da aloc\n");
+	// printf(" vamo ve se ta td certo\n fdf->map.rows = %d\n", fdf->map.rows);
+	fdf->map.dot_matrix = (t_dot **)malloc(sizeof(t_dot *) * (fdf->map.rows + 1)); //Invalid write of size 8
+	// printf("checagem antes da func get_coords\n");
 	get_coords(fdf, argv[1]); //Invalid read of size 8
-	printf("check depois da func get_coords\n");
+	// printf("check depois da func get_coords\n");
 	fdf->win.mlx = mlx_init();
 	fdf->win.mlx_win = mlx_new_window(fdf->win.mlx, WIDTH, HEIGHT, "FDF");
 	// img.img = mlx_new_image(fdf.win.mlx, WIDTH, HEIGHT);
@@ -293,9 +280,9 @@ int main(int argc, char **argv)
 	// mlx_pixel_put(&fdf.win.)
 	//bresenham(10, 10, 600, 300, fdf.win);
 	fdf->map.zoom = 30;
-	test(fdf);
-	draw(fdf);
-	mlx_key_hook(fdf->win.mlx_win, key_hook, &fdf->win);
+	// test(fdf);
+	draw(fdf); //
+	//mlx_key_hook(fdf->win.mlx_win, key_hook, fdf->win);
 	mlx_loop(fdf->win.mlx);
 	// mlx_destroy_image(fdf.win.mlx, fdf.img.img);
 }
