@@ -42,12 +42,6 @@ typedef struct s_win
 	void	*mlx_win;
 }	t_win;
 
-typedef struct s_mapdim
-{
-	int	rows;
-	int	cols;
-}	t_mapdim;
-
 typedef struct s_dot
 {
 	int	x;
@@ -56,11 +50,26 @@ typedef struct s_dot
 	int	color;
 }	t_dot;
 
+typedef struct s_map
+{
+	int	rows;
+	int	cols;
+	int	zoom;
+	t_dot **dot_matrix;
+}	t_map;
+
+typedef struct s_fdf
+{
+	t_map	map;
+	t_win	win;
+	t_map	img;
+}	t_fdf;
+
 void	my_mlx_pixel_put(t_img *data, int x, int y, int color);
 int		key_hook(int keycode, t_win *win);
 void	double_free(char **str);
-void	get_coords(t_dot **dot_matrix, t_mapdim dimensions, char *filename);
+void	get_coords(t_fdf *fdf, char *filename);
 void	error_message(char *message);
-void	get_dimensions(char *filename, t_mapdim *dimensions);
+void	get_dimensions(char *filename, t_fdf *fdf);
 
 #endif

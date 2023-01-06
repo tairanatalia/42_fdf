@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   eramain.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ngomes-t <ngomes-t@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:12:32 by ngomes-t          #+#    #+#             */
-/*   Updated: 2022/12/18 00:34:02 by ngomes-t         ###   ########.fr       */
+/*   Updated: 2023/01/05 04:39:10 by ngomes-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ int	count_columns(char *filename)
 
 
 
-int main(int argc, char **argv)
+int ma(int argc, char **argv)
 {
 	t_win		win;
 	t_img		img;
@@ -154,6 +154,7 @@ int main(int argc, char **argv)
 	i = 0;
 	if (argc != 2)
 		error_message("erro");
+	printf("chegoou aqui?");
 	win.mlx = mlx_init();
 	win.mlx_win = mlx_new_window(win.mlx, WIDTH, HEIGHT, "janela");
 	img.img = mlx_new_image(win.mlx, WIDTH, HEIGHT);
